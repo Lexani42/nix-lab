@@ -76,6 +76,7 @@
 # first x than y
 # Instead nix will build dependency relationship
 # "for evaluation y needs x; x is 10; y is 11"
+
 # let
 #     z = 123;
 # in
@@ -93,3 +94,37 @@
 # Think more like about a graph of values
 # evaluating demands particular values and follows only dependencies,
 # required to compute them
+
+# Lists behave similarly
+# Result here is 10
+
+# let
+#     xs = [
+#         10
+#         (throw "BOOM")
+#         30
+#     ];
+# in
+# builtins.head xs
+
+# builtins.tryEval has a subtle trap
+# In this example, necessary and sufficient answer for tryEval is the fact,
+# that { good = 42; bad = throw "BOOM"; } is actually a set
+# tryEval will secure only that part, but after that, tryEval will succeed and produce next set:
+# {
+#     success = true;
+
+#     value = {
+#         good = 42;
+#         bad = throw "BOOM";
+#     };
+# }
+# and as it is need to be evaluated in "in" block - it will throw actual error
+
+# let
+#     x = 1;
+# in
+# builtins.tryEval {
+#     good = 42;
+#     bad = throw "BOOM";
+# }
