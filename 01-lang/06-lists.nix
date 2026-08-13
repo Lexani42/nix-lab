@@ -17,8 +17,12 @@ let
 in
 {
     concat = list1 ++ list2;
+    # Result: [ 1 2 3 2 3 4 ]
     service_names = builtins.map (service: service.name) services;
-    more_than_two = builtins.filter if_more_than_two list1 ++ list2;
+    # Result: [ "api" "db" ]
+    more_than_two = builtins.filter if_more_than_two (list1 ++ list2);
+    # Result: [ 3 3 4 ]
     service_attrs = builtins.concatLists (builtins.map (service: builtins.attrNames service) services);
+    # Result: [ "name" "port" "name" "port" ]
     mixed_list = [ "qwe" 123 { qwe = 123; } [ 1 2 3 ]];
 }

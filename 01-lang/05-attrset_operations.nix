@@ -24,16 +24,22 @@ let
 in
 {
     name = service.name;
+    # Result: "api"
     timeout = service.timeout or 30;
+    # Result: 30
     port_exists = service ? port;
+    # Result: true
     full_description = service // {
         port = 8080;
         env = "prod";
     };
+    # Result: { env: "prod"; name: "api"; port: 8080 }
     full_config = config // {
         service = {
             port = 8080;
         };
     };
+    # Result: { service: { port: 8080 } }
     service_attrs = builtins.attrNames service;
+    # Result: [ "name" "port" ]
 }
