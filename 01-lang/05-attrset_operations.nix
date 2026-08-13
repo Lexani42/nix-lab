@@ -8,6 +8,7 @@
 # parameters won't be overridden recursively
 # in case of config/full_config, full config will ONLY contain service = { port = 8080 }
 # as service parameter in config will be completely replaced by new
+# builtins.attrNames can be used to get list with attribe names in attrSet
 
 let
     service = {
@@ -34,4 +35,5 @@ in
             port = 8080;
         };
     };
+    service_attrs = builtins.attrNames service;
 }
